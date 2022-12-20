@@ -2,8 +2,8 @@
 {
     internal class Rectangle
     {
+        public string Id { get; }
         private readonly ConsoleColor _color;
-        private readonly string _id;
         private readonly int _x;
         private readonly int _y;
         private readonly int _width;
@@ -12,7 +12,7 @@
         public Rectangle(ConsoleColor color, string id, int x, int y, int width, int height)
         {
             _color = color;
-            _id = id;
+            Id = id;
             _x = x;
             _y = y;
             _width = width;
@@ -21,9 +21,9 @@
 
         public void Show()
         {
-            for (var y = _y; y < _height + y; y++)
+            for (var dy = 0; dy < _height; dy++)
             {
-                ShowRow(y);
+                ShowRow(_y + dy);
             }
         }
 
@@ -32,7 +32,7 @@
             Console.CursorLeft = _x;
             Console.CursorTop = y;
             Console.BackgroundColor = _color;
-            var text = y == _y ? _id : string.Empty;
+            var text = y == _y ? Id : string.Empty;
             Console.Write(text.PadRight(_width));
         }
     }

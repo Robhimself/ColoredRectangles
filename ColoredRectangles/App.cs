@@ -23,19 +23,33 @@
                 ShowMenu();
                 Console.Write("Hva vil du gjøre? ");
                 var cmd = Console.ReadLine();
-                Console.WriteLine("Hvilken firkant vil du gjøre dette med? ");
-                var id = Console.ReadLine();
                 if (cmd == "F")
                 {
+                    Console.WriteLine("Hvilken firkant vil du gjøre dette med? ");
+                    var id = Console.ReadLine();
                     RemoveRectangle(id);
+                }
+
+                if (cmd == "+")
+                {
+                    AddRectangle();
+                }
+
+                if (cmd == "M")
+                {
+                    MoveRectangleToTop();
                 }
             }
         }
 
         private void ShowMenu()
         {
+            var menuHeight = FindMenuHeight();
+            Console.CursorTop = menuHeight;
             Console.WriteLine();
             Console.WriteLine("F = Fjerne firkant");
+            Console.WriteLine("+ = Legg til firkant");
+            Console.WriteLine("M = Flytt firkant til toppen");
         }
 
         private void RemoveRectangle(string id)
@@ -64,5 +78,36 @@
 
             Console.BackgroundColor = ConsoleColor.Black;
         }
+
+        private void AddRectangle()
+        {
+            var newRectangle = new Rectangle(ConsoleColor.Green, "D", 8, 8, 10, 10);
+            _rectangles.Add(newRectangle);
+        }
+
+        private void MoveRectangleToTop()
+        {
+            Console.WriteLine("Hvilken firkant vil du gjøre dette med? ");
+            string rectangleId = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(rectangleId))
+            {
+                MoveRectangleToTop();
+                return;
+            }
+
+            var rectangleIndex = GetRectangleIndex(rectangleId);
+            var oldRectangle = _rectangles[rectangleIndex];
+            
+            RemoveRectangle(rectangleId);
+            _rectangles.Add(oldRectangle);
+        }
+
+        private int FindMenuHeight()
+        {
+            var biggestHeight = _rectangles.Max(rect => rect.GetMaxHeight());
+            return biggestHeight;
+        }
+
     }
 }

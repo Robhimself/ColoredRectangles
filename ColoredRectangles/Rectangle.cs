@@ -8,6 +8,10 @@
         private readonly int _y;
         private readonly int _width;
         private readonly int _height;
+        private readonly int _maxHeight;
+
+        public int GetMaxHeight() => _maxHeight;
+
 
         public Rectangle(ConsoleColor color, string id, int x, int y, int width, int height)
         {
@@ -17,6 +21,7 @@
             _y = y;
             _width = width;
             _height = height;
+            _maxHeight = _x + _height;
         }
 
         public void Show()
